@@ -21,10 +21,16 @@
       #visdown-input {
         display: none;
       }
+
+      body{
+        background-color: black;
+        color: #fff;
+      }
     </style>  
 
 </head>
 <body>
+
 
 <div id="visdown-input">  
   # Visdown
@@ -33,7 +39,111 @@
 
   Write visualisation using a simple declarative markup like you would write code. Just wrap it in fenced block (three backticks) and mark the language as `vis`.
 
-  *Make simple static visualisations*
+  *Make simple static visualisations*  
+  **First Layer**
+
+```vis
+width: 400
+height: 300
+data:
+  url: data/notes.csv
+mark: area
+encoding:
+  x:
+    field: year
+    type: temporal
+    axis:
+      format: %Y
+      labelAngle: 0
+  y:
+    aggregate: sum
+    field: money
+    type: quantitative
+    stack: normalize
+    axis:
+      format: %
+  color:
+    field: denom
+    type: quantitative
+    scale: 
+      range:
+      - white
+      - blue
+      - purple
+      
+config:
+  background: black
+  axis:
+    domainColor: white
+    labelColor: white
+    titleColor: white
+
+```
+
+## Distribution  
+```vis
+data:
+  url: "data/notes.csv"
+transform:
+  - filter: datum.year == 2015
+mark: bar
+size:
+  weight: 100
+width: 700
+height: 400
+encoding:
+  y:
+    type: nominal
+    field: denom 
+    axis:
+      format: %Y
+      title: Denominations
+      angle: 90
+      titleFontSize: 12
+  x:
+    type: quantitative
+    field: number
+    
+    axis:
+      title: Total number of currency in circulation (in Billions)
+      angle: 0
+      titleFontSize: 12
+  color:
+    type: nominal
+    field: denom
+```
+## Chart2
+```vis
+data:
+  url: "data/notes.csv"
+transform:
+  - filter: datum.year == 2015
+mark: circle
+size:
+  weight: 300
+width: 700
+height: 400
+encoding:
+  y:
+    type: nominal
+    field: denom 
+    axis:
+      format: %Y
+      title: Denominations
+      angle: 90
+      titleFontSize: 12
+  x:
+    type: quantitative
+    field: number
+    
+    axis:
+      title: Total number of currency in circulation (in Billions)
+      angle: 0
+      titleFontSize: 12
+  color:
+    type: nominal
+    field: denom
+```
 ```vis
 data:
   url: "data/notes.csv"
@@ -85,22 +195,6 @@ encoding:
     field: area
     legend: null
 ```
-
-  ```vis
-  data:
-    url: data/cars.csv
-  mark: point
-  encoding:
-    x:
-      type: quantitative
-      field: kmpl
-    y:
-      type: quantitative
-      field: price
-    color:
-      type: nominal
-      field: model
-  ```
 
   Visdown is based on the grammar of interactive graphic (vega-lite) which allows you to specify the visualisation including interactions in a declarative fashion.
 
