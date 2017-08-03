@@ -40,7 +40,141 @@
   Write visualisation using a simple declarative markup like you would write code. Just wrap it in fenced block (three backticks) and mark the language as `vis`.
 
   *Make simple static visualisations*  
-  **First Layer**
+  ** Year change with slider **
+```vis
+width: 400
+height: 400
+data:
+  url: "data/notes.csv"
+selection:
+  Slr:
+      type: single
+      fields:
+      - year
+      bind:
+          input: range
+          min: 1978
+          max: 2015
+          step: 1
+mark: bar
+transform:
+  -
+      filter: datum.year == Slr_year
+encoding:
+  x:
+    type: nominal
+    field: denom
+  y:
+    type: quantitative
+    field: number
+  color:
+      field: denom
+      type: nominal
+    
+```
+
+
+  ** Two way bind: select and dropdown
+```vis
+width: 400
+height: 400
+data:
+  url: "data/sample.csv"
+selection:
+  pts:
+      type: single
+        fields:
+        - area
+        bind:
+          input: select
+            options:
+            - North
+            - South
+            - East
+            - West
+            - Central
+mark: circle
+encoding:
+  x:
+    type: quantitative
+    field: sales
+  y:
+    type: quantitative
+    field: profit
+  color:
+    value: grey
+    condition:
+    selection: pts
+      field: area
+      type: nominal
+  size:
+    value: 500
+```
+
+```vis
+width: 400
+height: 400
+data:
+  url: "data/sample.csv"
+selection:
+  pts:
+      type: interval
+mark: circle
+encoding:
+  x:
+    type: quantitative
+    field: sales
+  y:
+    type: quantitative
+    field: profit
+  color:
+    value: grey
+    condition:
+    selection: pts
+      field: area
+      type: nominal
+  size:
+    value: 500
+```
+
+```vis
+width: 400
+height: 300
+data:
+  url: data/cars.csv
+mark: area
+encoding:
+  x:
+    field: year
+    type: temporal
+    axis:
+      format: %Y
+      labelAngle: 0
+  y:
+    aggregate: sum
+    field: money
+    type: quantitative
+    stack: normalize
+    axis:
+      format: %
+  color:
+    field: denom
+    type: quantitative
+    scale: 
+      range:
+      - white
+      - blue
+      - purple
+      
+config:
+  background: black
+  axis:
+    domainColor: white
+    labelColor: white
+    titleColor: white
+
+```
+
 
 ```vis
 width: 400
